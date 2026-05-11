@@ -126,11 +126,22 @@
 </ul>
             <div class="header-right__inner d-lg-none my-3 gap-1 d-flex flx-align">
 
-    <a href="register.html" class="btn btn-main pill">
+
+                {% if user.is_authenticated %}
+                <a href="#" class="btn btn-main pill">
         <span class="icon-left icon">
             <img src="{% static 'assets/images/icons/user.svg' %}" alt="">
-        </span>Create Account
+        </span>Profile
     </a>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-main pill">
+        <span class="icon-left icon">
+            <img src="{% static 'assets/images/icons/user.svg' %}" alt="">
+        </span>Login
+    </a>
+                {% endif %}
+
+
     <div class="language-select flx-align select-has-icon">
         <img src="{% static 'assets/images/icons/globe.svg' %}" alt="" class="globe-icon">
         <select class="select py-0 ps-2 border-0 fw-500">
@@ -263,21 +274,21 @@
     </a>
     <div class="header-right__inner gap-3 flx-align d-lg-flex d-none">
 
-    <a href="register.html" class="btn btn-main pill">
+              {% if user.is_authenticated %}
+                <a href="#" class="btn btn-main pill">
         <span class="icon-left icon">
             <img src="{% static 'assets/images/icons/user.svg' %}" alt="">
-        </span>Create Account
+        </span>Profile
     </a>
-    <div class="language-select flx-align select-has-icon">
-        <img src="{% static 'assets/images/icons/globe.svg' %}" alt="" class="globe-icon">
-        <select class="select py-0 ps-2 border-0 fw-500">
-            <option value="1">Eng</option>
-            <option value="2">Bn</option>
-            <option value="3">Eur</option>
-            <option value="4">Urd</option>
-        </select>
-    </div>
-    </div>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-main pill">
+        <span class="icon-left icon">
+            <img src="{% static 'assets/images/icons/user.svg' %}" alt="">
+        </span>Login
+    </a>
+                {% endif %}
+
+
     <button type="button" class="toggle-mobileMenu d-lg-none"> <i class="las la-bars"></i> </button>
 </div>
             <!-- Header Right End  -->

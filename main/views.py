@@ -1,10 +1,13 @@
 from multiprocessing import context
 
+from django.contrib.auth.models import AbstractUser
 from django.shortcuts import render, redirect
+from pip._internal.utils import retry
+
 from . import models
 from django.contrib.auth import authenticate, login, logout
 
-
+from .models import User
 
 
 def index(request):
@@ -32,6 +35,10 @@ def product_detail(request, code):
 
 
 
+
+
+
+ # --------------------AUTH------------------------------
 def register(request):
     if request.method =="POST":
         username = request.POST['username']
@@ -48,3 +55,35 @@ def register(request):
             return render(request, 'front/register.html')
 
     return  render(request, 'front/register.html')
+
+
+def log_in(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        login(request, user)
+        return redirect('index')
+    return render(request, 'front/login.html')
+
+def log_out(request):
+    logout(request)
+    return redirect('index')
+
+
+def profile(request):
+    if request.method == "POST":
+        user = request.user
+        user.username = request.POST.get('username')
+        user.last_name = request.POST.get('last_name')
+        user.first_name = request.POST.get('first_name')
+        user.phone = request.POST.get('phone')
+        user.address = request.POST.get('address')
+        if request.FILES.get('photo'):
+            user.photo = request.FILES.get('photo')
+
+        user.save()
+    return render(request,  'front/profile.html')
+
+
+
