@@ -57,3 +57,34 @@ class Banner(models.Model):
     image = models.ImageField(upload_to='banners')
     description = models.TextField()
     product_1 = models.ForeignKey(Product, on_delete=models.SET_NULL , null=True, blank=True)
+
+CART_STATUS = (
+    (1, 'No Faol'),
+    (2, "Yig'ilmoqda"),
+    (3, "Yo'lda"),
+    (4, "Yetkazilgan"),
+    (5, "Qaytarilgan")
+)
+
+class Cart(Code):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.IntegerField(choices=CART_STATUS, default=1)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user} - {self.status}'
+
+
+class CartProduct(Code):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    count = models.IntegerField()
+
+
+class WishList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user} - {self.product}'
